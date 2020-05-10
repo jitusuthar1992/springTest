@@ -2,6 +2,7 @@ package com.journaldev.spring.di.controller;
 
 
 import org.apache.log4j.Logger;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,6 +12,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 
+@Profile("dev")
 @Controller
 public class FileUploadController {
 

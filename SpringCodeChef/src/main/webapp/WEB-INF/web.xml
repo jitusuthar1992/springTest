@@ -8,6 +8,10 @@
     </welcome-file-list>
 
 
+    <context-param>
+        <param-name>spring.profiles.active</param-name>
+        <param-value>dev</param-value>
+    </context-param>
     <servlet>
         <servlet-name>springmvc-dispatcher</servlet-name>
         <servlet-class>
