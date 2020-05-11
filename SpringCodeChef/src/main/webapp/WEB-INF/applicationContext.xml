@@ -4,12 +4,13 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:cache="http://www.springframework.org/schema/cache"
-
+       xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
     <!--
         <bean id="MyXMLApp" class="com.journaldev.spring.di.consumer.MyXMLApplication">
@@ -23,61 +24,66 @@
         com.journaldev.spring.di.services
         com.journaldev.spring.di.beans
         com.journaldev.spring.di.component
-        com.journaldev.spring.di.dao" />
+        com.journaldev.spring.di.dao
+       com.journaldev.spring.di.entity"/>
+
+    <task:annotation-driven/>
 
 
-    <context:annotation-config />
+    <context:annotation-config/>
 
     <bean id="twitter" class="com.journaldev.spring.di.services.impl.TwitterService"></bean>
-    <!--<bean id="asyncCaller" class="com.journaldev.spring.di.component.AsyncCaller">
+    <bean id="asyncCaller" class="com.journaldev.spring.di.component.AsyncCaller">
         <property name="asyncMailTrigger" ref="asyncMailTrigger"></property>
     </bean>
-    <bean id = "asyncMailTrigger" class="com.journaldev.spring.di.component.AsyncMailTrigger"></bean>-->
+    <bean id="asyncMailTrigger" class="com.journaldev.spring.di.component.AsyncMailTrigger"></bean>
 
     <bean id="MyXMLApp" class="com.journaldev.spring.di.beans.MyXMLApplication">
         <property name="service" ref="twitter"></property>
     </bean>
 
     <bean id="jsonMessageConverter"
-                class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+          class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
 
     <bean
             class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
             <list>
-                <ref bean="jsonMessageConverter" />
+                <ref bean="jsonMessageConverter"/>
             </list>
         </property>
     </bean>
 
-        <cache:annotation-driven />
+    <cache:annotation-driven/>
 
-        <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
-            <property name="caches">
-                <set>
-                    <bean
-                            class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
-                            name="employeeCache"/>
-                </set>
-            </property>
-        </bean>
+    <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+        <property name="caches">
+            <set>
+                <bean
+                        class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
+                        name="employeeCache"/>
+            </set>
+        </property>
+    </bean>
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-                destroy-method="close">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+          destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url"
-                        value="jdbc:mysql://localhost:3306/employee" />
-        <property name="username" value="root" />
-        <property name="password" value="Snapdeal@198@" />
+                  value="jdbc:mysql://localhost:3306/employee"/>
+        <property name="username" value="root"/>
+        <property name="password" value="Snapdeal@198@"/>
     </bean>
 
     <!-- Hibernate 4 SessionFactory Bean definition -->
     <bean id="hibernate4AnnotatedSessionFactory"
-                class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
         <property name="annotatedClasses">
             <list>
                 <value>com.journaldev.spring.di.entity.Employee</value>
+                <value>com.journaldev.spring.di.entity.Users</value>
+                <value>com.journaldev.spring.di.entity.UserRole</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -92,7 +98,7 @@
     <bean
             class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix">
-            <value>/WEB-INF/</value>
+            <value>/WEB-INF/admin/</value>
         </property>
         <property name="suffix">
             <value>.jsp</value>
@@ -100,20 +106,24 @@
     </bean>
 
     <bean id="multipartResolver"
-                class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 
         <!-- setting maximum upload size -->
-        <property name="maxUploadSize" value="100000000" />
+        <property name="maxUploadSize" value="100000000"/>
 
+    </bean>
+    <bean id="custom403"
+          class="com.journaldev.spring.di.handler.CustomAccessDeniedHandler">
+        <property name="errorPage" value="403"/>
     </bean>
 
     <mvc:annotation-driven/>
 
-    <tx:annotation-driven transaction-manager="transactionManager" />
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <bean id="transactionManager"
-                class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory"
-                        ref="hibernate4AnnotatedSessionFactory" />
+                  ref="hibernate4AnnotatedSessionFactory"/>
     </bean>
 </beans>
