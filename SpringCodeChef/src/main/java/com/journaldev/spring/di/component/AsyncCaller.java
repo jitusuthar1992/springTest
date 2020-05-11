@@ -1,8 +1,9 @@
 package com.journaldev.spring.di.component;
 
-import com.journaldev.spring.di.controller.HelloWorldController;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +14,7 @@ public class AsyncCaller {
     private static final Logger logger = Logger.getLogger(AsyncCaller.class);
 
 
+    @Autowired
     private AsyncMailTrigger asyncMailTrigger ;
 
     public void setAsyncMailTrigger(AsyncMailTrigger asyncMailTrigger) {
@@ -23,6 +25,7 @@ public class AsyncCaller {
         return asyncMailTrigger;
     }
 
+    @Async
     public void rightWayToCall() {
         logger.info("Calling From rightWayToCall Thread " + Thread.currentThread().getName());
         asyncMailTrigger.senMail(populateMap());
