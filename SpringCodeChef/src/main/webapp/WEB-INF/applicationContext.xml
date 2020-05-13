@@ -126,4 +126,13 @@
         <property name="sessionFactory"
                   ref="hibernate4AnnotatedSessionFactory"/>
     </bean>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/interceptortest" />
+            <bean
+                    class="com.journaldev.spring.di.interceptor.SampleInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>

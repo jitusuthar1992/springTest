@@ -34,6 +34,13 @@ public class HelloWorldController {
 
     }
 
+    @RequestMapping(value="/interceptortest", method = RequestMethod.GET)
+    public String interceptortest(ModelMap model) {
+
+        return "interceptor";
+
+    }
+
     @RequestMapping("/admin")
     public ModelAndView helloAdmin(ModelMap model, Principal principal) {
 
