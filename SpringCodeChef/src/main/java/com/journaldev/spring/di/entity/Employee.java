@@ -19,6 +19,17 @@ public class Employee {
     @Column(name="salary")
     long salary;
 
+
+    //@Transient to denote field to be non persistent
+    //static to denote field to be non persistent
+    //final to denote field to be non persistent
+    //transient to denote field to be non persistent and non transient
+    @Column(name = "dept_name")
+    String deptName;
+
+
+
+
     public int getId() {
         return id;
     }
@@ -51,6 +62,11 @@ public class Employee {
         this.salary = salary;
     }
 
+
+    public String getDeptName() {
+        return deptName;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
@@ -58,6 +74,7 @@ public class Employee {
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 ", salary=" + salary +
+                ", deptName='" + deptName + '\'' +
                 '}';
     }
 }

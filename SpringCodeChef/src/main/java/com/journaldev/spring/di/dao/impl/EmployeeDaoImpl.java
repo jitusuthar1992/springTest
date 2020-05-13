@@ -42,8 +42,7 @@ public class EmployeeDaoImpl implements IEmployeeDao, UserDetailsService {
     @Transactional
     public Employee addEmployee(Employee employee) {
         Session session = this.sessionFactory.getCurrentSession();
-        employee = (Employee) session.merge(employee);
-        return employee;
+        return  (Employee) session.merge(employee);
     }
 
     @Transactional

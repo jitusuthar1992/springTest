@@ -41,8 +41,7 @@ public class EmployeeRestController {
     @ResponseBody
     @RequestMapping(value = "/rest/employee/create",method = RequestMethod.POST)
     public Employee createEmployee(@RequestBody Employee emp) {
-        employeeService.addEmployee(emp);
-        return emp;
+        return employeeService.addEmployee(emp);
     }
     @ResponseBody
     @RequestMapping(value = "/rest/employee/search/{name}",method = RequestMethod.GET)
