@@ -25,7 +25,8 @@
         com.journaldev.spring.di.beans
         com.journaldev.spring.di.component
         com.journaldev.spring.di.dao
-       com.journaldev.spring.di.entity"/>
+       com.journaldev.spring.di.entity
+         com.journaldev.spring.di.kafka"/>
 
     <task:annotation-driven/>
 
@@ -134,5 +135,39 @@
                     class="com.journaldev.spring.di.interceptor.SampleInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>
+
+    <bean id="kafkaProducerDemo" class="com.journaldev.spring.di.kafka.KafkaProducerDemo">
+        <property name="properties">
+            <props>
+                <prop key="topic">test</prop>
+                <prop key="bootstrap.servers">127.0.0.1:9092</prop>
+                <prop key="acks">all</prop>
+                <prop key="key.serializer">org.apache.kafka.common.serialization.StringSerializer
+                </prop>
+                <prop key="value.serializer">org.apache.kafka.common.serialization.StringSerializer
+                </prop>
+                <prop key="buffer.memory">33554432</prop>
+            </props>
+
+        </property>
+    </bean>
+
+    <bean id="kafkaConsumerDemo" class="com.journaldev.spring.di.kafka.KafkaConsumerDemo">
+        <property name="props">
+            <props>
+                <prop key="topic">test</prop>
+                <prop key="bootstrap.servers">127.0.0.1:9092</prop>
+                <prop key="group.id">group1</prop>
+                <prop key="enable.auto.commit">true</prop>
+                <prop key="auto.commit.interval.ms">1000</prop>
+                <prop key="session.timeout.ms">30000</prop>
+                <prop key="key.deserializer">org.apache.kafka.common.serialization.StringDeserializer
+                </prop>
+                <prop key="value.deserializer">org.apache.kafka.common.serialization.StringDeserializer
+                </prop>
+            </props>
+
+        </property>
+    </bean>
 
 </beans>
